@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import Card from './Card.js'
-
+import { database, firebaseListToArray } from '../utils/firebase.js';
 
 class CardContainer extends Component {
   constructor(props){
     super(props);
 
-
+    this.state = {
+      dbPrompts: []
+    }
   }
 
   render() {
