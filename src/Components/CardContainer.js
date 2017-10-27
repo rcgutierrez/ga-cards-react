@@ -11,6 +11,15 @@ class CardContainer extends Component {
     }
   }
 
+  componentWillMount(){
+    database.ref('/prompts')
+      .on('value', data => {
+        const results = firebaseListToArray(data.val());
+        console.log(results);
+        results.map((result) => this.state.dbPrompts.push(result.value));
+      })
+    }
+
   render() {
 
     let promptArr = [
@@ -21,12 +30,14 @@ class CardContainer extends Component {
     ]
 
     let cardsArr = promptArr.map((prompt, index)=> <Card key={index} prompt={prompt} />);
+    let dbCardsArr = this.state.dbPrompts.map((prompt, index)=> <Card key={index} prompt={prompt} />);
 
     return (
       <div>
       <section id="cards" className="container-fluid">
         <div className="row">
         {cardsArr}
+        {dbCardsArr}
         </div>
       </section>
       </div>

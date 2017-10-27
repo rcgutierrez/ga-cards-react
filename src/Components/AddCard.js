@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-// import { database } from '../utils/firebase.js'
+import { database } from '../utils/firebase.js'
 
 class AddCard extends Component {
   constructor(props){
     super(props);
 
     this.state = {
-      value: ''
+      value: '',
+      dbPrompts: []
     }
     this._updateText = this._updateText.bind(this);
     this._addToDb = this._addToDb.bind(this);
@@ -22,8 +23,18 @@ class AddCard extends Component {
     evt.preventDefault();
     let promptToAdd = this.state.value + '_______________';
     console.log("adding " + promptToAdd + " to database");
-    
-  }
+    database.ref('/prompts')
+      .push({
+        value: promptToAdd
+      })
+      .then(() => {
+        console.log("success");
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      console.log('rnnin line 36');
+    }
 
   render() {
     return (
